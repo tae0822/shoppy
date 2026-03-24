@@ -5,6 +5,7 @@ import {
   GoogleAuthProvider,
   signOut,
   onAuthStateChanged,
+  signInWithEmailAndPassword,
 } from 'firebase/auth';
 import { getDatabase, ref, set, get, remove } from 'firebase/database';
 import { v4 as uuid } from 'uuid';
@@ -18,7 +19,6 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
-// const app = getApps().length > 0 ? getApp() : initializeApp(firebaseConfig);
 
 const auth = getAuth(app);
 const database = getDatabase(app);
@@ -26,6 +26,10 @@ const provider = new GoogleAuthProvider();
 
 export function login() {
   signInWithPopup(auth, provider).catch(console.error);
+}
+
+export function loginWithEmail(email, password){
+  return signInWithEmailAndPassword(auth, email, password).catch(console.error)
 }
 
 export function logout() {
@@ -48,7 +52,7 @@ async function adminUser(user) {
         return { ...user, isAdmin };
       }
       return user;
-    });
+    })
 }
 
 export async function addNewProduct(product, image) {

@@ -6,9 +6,11 @@ import User from './User';
 import Button from './ui/Button';
 import { useAuthContext } from '../context/AuthContext';
 import CartStatus from './CartStatus';
+import { loginWithEmail } from '../api/firebase';
 
 export default function Navbar() {
   const { user, login, logout } = useAuthContext();
+
   return (
     <header className='flex justify-between border-b border-gray-300 p-3'>
       <Link to='/' className='flex items-center text-4xl text-brand'>
@@ -30,6 +32,8 @@ export default function Navbar() {
         {user && <User user={user} />}
         {!user && <Button text={'Login'} onClick={login} />}
         {user && <Button text={'Logout'} onClick={logout} />}
+        {!user &&<Button text={'Try Demo User'} onClick={()=>loginWithEmail("user@test.com", "123456")}/>}
+        {!user && <Button text={'Login as Admin'} onClick={()=> loginWithEmail("admin@test.com", "123456")}/>}
       </nav>
     </header>
   );
